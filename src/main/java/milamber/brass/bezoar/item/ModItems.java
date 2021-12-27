@@ -21,11 +21,6 @@ public class ModItems {
                     new Custom_Spawn_Egg_Item(ModEntityTypes.JUNGLE_HORNET, 0x18c72c, 0xe3d512,
                             new Item.Properties().group(ModItemGroup.BEZOAR_GROUP)));
 
-    /*public static final RegistryObject<Custom_Spawn_Egg_Item> CHORUS_HORNET_SPAWN_EGG =
-            ITEMS.register("chorus_hornet_spawn_egg", () ->
-                    new Custom_Spawn_Egg_Item(ModEntityTypes.CHORUS_HORNET, 0x18c72c, 0xe3d512,
-                            new Item.Properties().group(ModItemGroup.BEZOAR_GROUP)));*/
-
     public static final RegistryObject<Item> BEZOAR = ITEMS.register("bezoar",
             () -> new Bezoar(new Item.Properties().maxStackSize(1).setNoRepair().rarity(Rarity.EPIC).group(ModItemGroup.BEZOAR_GROUP).maxDamage(16)));
 
@@ -43,9 +38,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> WITHER_M = ITEMS.register("wither_majora",
             () -> new Wither_Majora(new Item.Properties().group(ModItemGroup.BEZOAR_GROUP).maxStackSize(8)));
-
-    public static final RegistryObject<Item> TROPHY_FRAME_ITEM = ITEMS.register("trophy_frame_item",
-            () -> new Trophy_Frame_Item(new Item.Properties().group(ModItemGroup.BEZOAR_GROUP).maxStackSize(16)));
 
     public static final RegistryObject<Item> CHORUS_TROPHY = ITEMS.register("chorus_trophy",
             () -> new Item(new Item.Properties().group(ModItemGroup.BEZOAR_GROUP).maxStackSize(8)));
