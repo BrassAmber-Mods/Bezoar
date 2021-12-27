@@ -1,0 +1,23 @@
+{
+  "type" : "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "IPI",
+    "SPS"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:oak_planks"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:oak_stairs"
+    }
+  },
+  "result": {
+    "item": "bezoar:trophy_frame_item",
+    "count": 2
+  }
+}
