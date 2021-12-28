@@ -6,10 +6,12 @@ import milamber.brass.bezoar.item.custom.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
 
@@ -18,8 +20,8 @@ public class ModItems {
 
     public static final RegistryObject<Custom_Spawn_Egg_Item> JUNGLE_HORNET_SPAWN_EGG =
             ITEMS.register("jungle_hornet_spawn_egg", () ->
-                    new Custom_Spawn_Egg_Item(ModEntityTypes.JUNGLE_HORNET, 0x18c72c, 0xe3d512,
-                            new Item.Properties().group(ModItemGroup.BEZOAR_GROUP)));
+                    new Custom_Spawn_Egg_Item(ModEntityTypes.JUNGLE_HORNET.get(), 0x18c72c, 0xe3d512,
+                            new Item.Properties().tab(ModItemGroup.BEZOAR_GROUP)));
 
     public static final RegistryObject<Item> BEZOAR = ITEMS.register("bezoar",
             () -> new Bezoar(new Item.Properties().maxStackSize(1).setNoRepair().rarity(Rarity.EPIC).group(ModItemGroup.BEZOAR_GROUP).maxDamage(16)));

@@ -1,61 +1,22 @@
 package milamber.brass.bezoar.item;
 
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
-public class Custom_Spawn_Egg_Item extends SpawnEggItem {
-
-    protected  static final List<Custom_Spawn_Egg_Item> EGGS_TO_ADD = new ArrayList<>();
-    protected static DefaultDispenseItemBehavior behavior = new DefaultDispenseItemBehavior() {
-
-        @Override
-        protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-            Direction direction = source.getBlockState().get(DispenserBlock.FACING);
-            EntityType<?> eType = ((SpawnEggItem)stack.getItem()).getType((stack.getTag()));
-
-            eType.spawn(source.getWorld(), stack, null, source.getBlockPos().offset(direction),
-                    SpawnReason.DISPENSER, direction != Direction.UP, false);
-            stack.shrink(1);
-            return stack;
-        }
-    };
-
-    private final Lazy<? extends  EntityType<?>> lazyEntity;
-
-    public Custom_Spawn_Egg_Item(final RegistryObject<? extends EntityType<?>> entity, final int primaryColor, final int secondaryColor, final Item.Properties properties) {
-        super(null, primaryColor, secondaryColor, properties);
-        this.lazyEntity = Lazy.of(entity::get);
-        EGGS_TO_ADD.add(this);
-    }
-
-    public static void initSpawnEggs() {
-        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "field_195987_b");
-
-        for (final SpawnEggItem item : EGGS_TO_ADD) {
-            EGGS.put(item.getType(null), item);
-            DispenserBlock.registerDispenseBehavior(item, behavior);
-        }
-
-        EGGS_TO_ADD.clear();
-    }
-
-    @Override
-    public EntityType<?> getType(CompoundNBT nbt) {
-        return this.lazyEntity.get();
+public class Custom_Spawn_Egg_Item extends ForgeSpawnEggItem {
+    public Custom_Spawn_Egg_Item(Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int highlightColor, Properties props) {
+        super(type, backgroundColor, highlightColor, props);
     }
 }
+
