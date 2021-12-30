@@ -1,6 +1,6 @@
 package milamber.brass.bezoar.item.custom;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class Stinger extends Item {
 

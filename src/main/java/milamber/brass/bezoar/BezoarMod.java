@@ -2,30 +2,20 @@ package milamber.brass.bezoar;
 
 import milamber.brass.bezoar.block.ModBlocks;
 import milamber.brass.bezoar.entity.ModEntityTypes;
-import milamber.brass.bezoar.entity.custom.Giant_Hornet;
 import milamber.brass.bezoar.item.Custom_Spawn_Egg_Item;
 import milamber.brass.bezoar.item.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import milamber.brass.bezoar.util.ClientEvents;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BezoarMod.MOD_ID)
@@ -43,13 +33,8 @@ public class BezoarMod
         ModBlocks.register(eventBus);
         ModItems.register(eventBus);
 
-        eventBus.addListener(this::setup);
-        // Register the enqueueIMC method for modloading
-        eventBus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        eventBus.addListener(this::processIMC);
-        // Register the doClientStuff method for modloading
-        eventBus.addListener(this::doClientStuff);
+        eventBus.addListener(ClientEvents::registerLayers);
+        eventBus.addListener(ClientEvents::registerRenderers);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -57,51 +42,17 @@ public class BezoarMod
 
     @SubscribeEvent
     public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event) {
-        Custom_Spawn_Egg_Item.initSpawnEggs();
+        Custom_Spawn_Egg_Item.eggs();
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        DeferredWorkQueue.runLater(() -> {
-                GlobalEntityTypeAttributes.put(ModEntityTypes.JUNGLE_HORNET.get(), Giant_Hornet.setAttributes().create());
-                });
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
-    }
-
-    private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("bezoar", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.getMessageSupplier().get()).
-                collect(Collectors.toList()));
-    }
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
+        LOGGER.debug("Running common setup.");
     }
 
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-            LOGGER.info("HELLO from Register Block");
-        }
+    // Helper method for resource locations
+    public static ResourceLocation locate(String name) {
+        return new ResourceLocation(BezoarMod.MOD_ID, name);
     }
+
 }

@@ -5,8 +5,6 @@
   "item.bezoar.allium_majora" : "Allium Majora",
   "item.bezoar.chorus_majora" : "Chorus Majora",
   "item.bezoar.wither_majora" : "Wither Majora",
-  "item.bezoar.jungle_hornet_spawn_egg" : "Jungle Hornet Spawn Egg",
-  "item.bezoar.trophy_frame_item" : "Trophy Frame",
 
   "item.bezoar.chorus_trophy" : "Chorus Trophy",
   "item.bezoar.delta_trophy" : "Delta Trophy",
@@ -15,11 +13,8 @@
   "item.bezoar.mossy_trophy" : "Mossy Trophy",
   "item.bezoar.spikey_trophy" : "Spikey Trophy",
   "item.bezoar.blackjacket_trophy" : "Blackjacket Trophy",
-  "item.bezoar._trophy" : "_trophy",
 
   "itemGroup.bezoarTab" : "Bezoar",
 
-  "entity.bezoar.jungle_hornet" : "Jungle Hornet",
-  "entity.bezoar.chorus_hornet" : "Chorus Hornet",
-  "entity.bezoar.trophy_frame" : "Trophy Frame"
+  "entity.bezoar.jungle_hornet" : "Jungle Hornet"
 }

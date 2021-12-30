@@ -1,11 +1,14 @@
 package milamber.brass.bezoar.item.custom;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.*;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import java.util.Properties;
 
 
 public class Bezoar extends Item {
@@ -16,12 +19,12 @@ public class Bezoar extends Item {
         super(properties);
     }
 
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (entityIn.isLiving()) {
+    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if (entityIn.isAlive()) {
             LivingEntity livingEntity = (LivingEntity) entityIn;
-            if (livingEntity.isPotionActive(Effects.POISON)) {
-                livingEntity.removePotionEffect(Effects.POISON);
-                stack.damageItem(1, livingEntity, player -> player.playSound(SoundEvents.ENTITY_ITEM_BREAK, 3, 5));
+            if (livingEntity.hasEffect(MobEffects.POISON)) {
+                livingEntity.removeEffect(MobEffects.POISON);
+                stack.getItem().damageItem(stack, 1, livingEntity, player -> player.playSound(SoundEvents.ITEM_BREAK, 3, 5));
             }
         }
     }

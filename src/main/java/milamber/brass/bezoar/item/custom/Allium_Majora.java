@@ -1,8 +1,8 @@
 package milamber.brass.bezoar.item.custom;
 
-import net.minecraft.item.Item;
 
-public class Allium_Majora extends Item {
+
+public class Allium_Majora extends Abstract_Allium_Item {
     public Allium_Majora(Properties properties) {
         super(properties);
     }
