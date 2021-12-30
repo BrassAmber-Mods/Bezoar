@@ -1,10 +1,13 @@
 package milamber.brass.bezoar.entity.custom;
 
+import milamber.brass.bezoar.BezoarMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,6 +16,7 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +25,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -29,23 +34,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
+import java.util.Collection;
 
 public class Giant_Hornet extends Monster implements RangedAttackMob {
     private final RangedBowAttackGoal<Giant_Hornet> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 15, 15.0F);
     private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 3.0D, false);
+    private static final ResourceLocation LOOT_TABLE = new ResourceLocation(BezoarMod.MOD_ID, "entities/jungle_hornet");
     public Giant_Hornet(EntityType<? extends Giant_Hornet> type, Level worldIn) {
         super(type, worldIn);
         this.setCanPickUpLoot(false);
         this.moveControl = new FlyingMoveControl(this, 20, true);
         this.lookControl = new LookControl(this);
-    }
-
-    public static AttributeSupplier.Builder setAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 13.0f)
-                .add(Attributes.FLYING_SPEED, 2.4f )
-                .add(Attributes.ATTACK_DAMAGE, 3)
-                .add(Attributes.ATTACK_SPEED, 1.4f);
     }
 
 
@@ -58,10 +57,24 @@ public class Giant_Hornet extends Monster implements RangedAttackMob {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D);
+    @Override
+    protected ResourceLocation getDefaultLootTable() {
+        return LOOT_TABLE;
     }
 
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.25D)
+                .add(Attributes.MAX_HEALTH, 13.0f)
+                .add(Attributes.FLYING_SPEED, 2.4f )
+                .add(Attributes.ATTACK_DAMAGE, 3)
+                .add(Attributes.ATTACK_SPEED, 1.4f);
+    }
+
+    @Override
+    public void die(DamageSource p_21014_) {
+        super.die(p_21014_);
+    }
 
     protected void playStepSound(BlockPos p_32159_, BlockState p_32160_) {
         this.playSound(this.getStepSound(), 0.15F, 1.0F);
@@ -155,6 +168,26 @@ public class Giant_Hornet extends Monster implements RangedAttackMob {
             this.reassessWeaponGoal();
         }
 
+    }
+
+    @Override
+    protected void dropAllDeathLoot(DamageSource p_21192_) {
+        Entity entity = p_21192_.getEntity();
+
+        int i = net.minecraftforge.common.ForgeHooks.getLootingLevel(this, entity, p_21192_);
+        this.captureDrops(new java.util.ArrayList<>());
+
+        boolean flag = this.lastHurtByPlayerTime > 0;
+        if (this.shouldDropLoot() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+            this.dropFromLootTable(p_21192_, flag);
+            this.dropCustomDeathLoot(p_21192_, i, flag);
+        }
+
+        this.dropExperience();
+
+        Collection<ItemEntity> drops = captureDrops(null);
+        if (!net.minecraftforge.common.ForgeHooks.onLivingDrops(this, p_21192_, drops, i, lastHurtByPlayerTime > 0))
+            drops.forEach(e -> level.addFreshEntity(e));
     }
 
 

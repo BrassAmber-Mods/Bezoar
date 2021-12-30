@@ -20,11 +20,12 @@ public class Bezoar extends Item {
     }
 
     public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
         if (entityIn.isAlive()) {
             LivingEntity livingEntity = (LivingEntity) entityIn;
             if (livingEntity.hasEffect(MobEffects.POISON)) {
                 livingEntity.removeEffect(MobEffects.POISON);
-                stack.getItem().damageItem(stack, 1, livingEntity, player -> player.playSound(SoundEvents.ITEM_BREAK, 3, 5));
+                stack.hurtAndBreak(1, livingEntity, player -> player.playSound(SoundEvents.ITEM_BREAK, 3, 5));
             }
         }
     }
