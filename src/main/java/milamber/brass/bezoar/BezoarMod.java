@@ -1,10 +1,7 @@
 package milamber.brass.bezoar;
 
-import milamber.brass.bezoar.block.ModBlocks;
-import milamber.brass.bezoar.entity.ModEntityTypes;
 import milamber.brass.bezoar.item.Custom_Spawn_Egg_Item;
-import milamber.brass.bezoar.item.ModItems;
-import milamber.brass.bezoar.util.ClientEvents;
+import milamber.brass.bezoar.client.events.ClientEvents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,15 +20,15 @@ public class BezoarMod
 {
     public static final String MOD_ID = "bezoar";
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public BezoarMod() {
         // Register the setup method for modloading
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModEntityTypes.register(eventBus);
-        ModBlocks.register(eventBus);
-        ModItems.register(eventBus);
+        BezoarEntityTypes.register(eventBus);
+        BezoarBlocks.register(eventBus);
+        BezoarItems.register(eventBus);
 
         eventBus.addListener(ClientEvents::registerLayers);
         eventBus.addListener(ClientEvents::registerRenderers);
