@@ -1,4 +1,5 @@
 {
+  // Items
   "item.bezoar.bezoar" : "Bezoar",
   "item.bezoar.stinger" : "Stinger",
   "item.bezoar.allium_chlorophytus" : "Allium Chlorophytus",
@@ -12,7 +13,27 @@
   "item.bezoar.mossy_trophy" : "Mossy Trophy",
   "item.bezoar.spikey_trophy" : "Spikey Trophy",
 
+  "item.bezoar.tortoise_plate" : "Tortoise Plate",
+  "item.bezoar.tortoise_helmet" : "Tortoise Helmet",
+  "item.bezoar.tortoise_chestplate" : "Tortoise Chestplate",
+  "item.bezoar.tortoise_leggings" :  "Tortoise Leggings",
+  "item.bezoar.tortoise_boots" : "Tortoise Boots",
+
+  "item.bezoar.tortoise_sword" : "Tortoise Sword",
+  "item.bezoar.tortoise_pickaxe" : "Tortoise Pickaxe",
+  "item.bezoar.tortoise_axe" : "Tortoise Axe",
+  "item.bezoar.tortoise_shovel" :  "Tortoise Shovel",
+  "item.bezoar.tortoise_scythe" : "Tortoise Scythe",
+
   "itemGroup.bezoarTab" : "Bezoar",
 
-  "entity.bezoar.jungle_hornet" : "Jungle Hornet"
+  // Entities
+  "entity.bezoar.honey_hornet" : "Honey Hornet",
+  "entity.bezoar.mossy_hornet" : "Mossy Hornet",
+  "entity.bezoar.mountain_hornet" : "Mountain Hornet",
+  "entity.bezoar.spikey_hornet" : "Spikey Hornet",
+  "entity.bezoar.floral_hornet" : "Floral Hornet",
+
+  "entity.bezoar.giant_tortoise" : "Giant Tortoise"
+
 }

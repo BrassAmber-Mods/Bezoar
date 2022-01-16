@@ -11,10 +11,10 @@ import net.minecraft.world.level.Level;
 import java.util.Properties;
 
 
-public class Bezoar extends Item {
+public class BezoarItem extends Item {
 
 
-    public Bezoar(Properties properties)
+    public BezoarItem(Properties properties)
     {
         super(properties);
     }

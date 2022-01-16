@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tortoise_armor",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "bezoar:tortoise_plate"
+    },
+    "X": {
+      "item": "minecraft:netherite_helmet"
+    }
+  },
+  "result": {
+    "item": "bezoar:tortoise_helmet",
+    "count": 1
+  }
+}
