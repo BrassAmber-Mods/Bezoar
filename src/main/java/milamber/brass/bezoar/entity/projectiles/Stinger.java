@@ -111,4 +111,7 @@ public class Stinger extends AbstractArrow {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
+    public ItemStack getItem() {
+         return new ItemStack(BezoarItems.STINGER_ITEM.asItem());
+    }
 }

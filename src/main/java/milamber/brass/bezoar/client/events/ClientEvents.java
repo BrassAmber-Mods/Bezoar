@@ -23,6 +23,7 @@ public class ClientEvents {
         event.registerEntityRenderer(BezoarEntityTypes.SPIKEY_HORNET.get(), SpikeyHornetRenderer::new);
         event.registerEntityRenderer(BezoarEntityTypes.FLORAL_HORNET.get(), FloralHornetRenderer::new);
         event.registerEntityRenderer(BezoarEntityTypes.GIANT_TORTOISE.get(), GiantTortoiseRenderer::new);
+        event.registerEntityRenderer(BezoarEntityTypes.STINGER.get(), StingerRenderer::new);
     }
 
     @SubscribeEvent

@@ -2,6 +2,7 @@ package milamber.brass.bezoar.entity.mobs;
 
 import milamber.brass.bezoar.Bezoar;
 import milamber.brass.bezoar.BezoarItems;
+import milamber.brass.bezoar.entity.ai.ChargingMeleeAttackGoal;
 import milamber.brass.bezoar.entity.projectiles.Stinger;
 import milamber.brass.bezoar.item.StingerItem;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
@@ -37,17 +40,20 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Random;
 
 
-public class AbstractGiantHornetEntity extends Monster implements RangedAttackMob {
+public class AbstractGiantHornetEntity extends Monster implements RangedAttackMob, FlyingAnimal {
     private final RangedBowAttackGoal<AbstractGiantHornetEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 15, 15.0F);
-    private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 3.0D, true);
+    private final ChargingMeleeAttackGoal meleeGoal = new ChargingMeleeAttackGoal(this, 3.0D, 8,true);
     private static final ResourceLocation LOOT_TABLE = new ResourceLocation(Bezoar.MOD_ID, "entities/honey_hornet");
     public AbstractGiantHornetEntity(EntityType<? extends AbstractGiantHornetEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -59,10 +65,12 @@ public class AbstractGiantHornetEntity extends Monster implements RangedAttackMo
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 2.0, 60));
+
         this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 1.5D, 8.0F));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomFlyingGoal(this, 3.0D));
+        this.goalSelector.addGoal(9, new FloatGoal(this));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<Player>(this, Player.class, true));
     }
@@ -225,5 +233,11 @@ public class AbstractGiantHornetEntity extends Monster implements RangedAttackMo
         return SoundEvents.BEE_DEATH;
     }
 
+    public boolean isFlapping() {
+        return this.isFlying();
+    }
 
+    public boolean isFlying() {
+        return !this.onGround;
+    }
 }
