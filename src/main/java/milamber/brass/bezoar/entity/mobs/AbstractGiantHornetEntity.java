@@ -138,7 +138,7 @@ public class AbstractGiantHornetEntity extends Monster implements RangedAttackMo
             this.goalSelector.removeGoal(this.meleeGoal);
             this.goalSelector.removeGoal(this.bowGoal);
             Player player = this.level.getNearestPlayer(this, -1D);
-            if (player.distanceToSqr(this) > 8) {
+            if (player != null && player.distanceToSqr(this) > 8  ) {
                 this.bowGoal.setMinAttackInterval(30);
                 this.goalSelector.addGoal(4, this.bowGoal);
             } else {

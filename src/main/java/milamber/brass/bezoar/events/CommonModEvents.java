@@ -45,7 +45,10 @@ public class CommonModEvents {
                     SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING,
                     FloralHornetEntity::canSpawn);
         });
+        event.enqueueWork(() -> {
+            SpawnPlacements.register(BezoarEntityTypes.GIANT_TORTOISE.get(),
+                    SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING,
+                    GiantTortoiseEntity::canSpawn);
+        });
     }
-
-
 }

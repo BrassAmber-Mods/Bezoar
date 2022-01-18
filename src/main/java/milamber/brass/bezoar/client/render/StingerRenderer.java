@@ -24,7 +24,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class StingerRenderer<T extends Stinger> extends EntityRenderer<T> {
 
-    public static final ResourceLocation RES_STINGER = Bezoar.locate("textures/item/stinger");
+    public static final ResourceLocation RES_STINGER = Bezoar.locate("textures/item/stinger_item");
     private final ItemRenderer itemRenderer;
 
     public StingerRenderer(Context context) {

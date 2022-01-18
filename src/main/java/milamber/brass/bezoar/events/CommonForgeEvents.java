@@ -33,6 +33,10 @@ public class CommonForgeEvents {
             event.getSpawns().addSpawn(MobCategory.MONSTER,
                     new MobSpawnSettings.SpawnerData(BezoarEntityTypes.FLORAL_HORNET.get(), 90, 1,2));
         }
+        if (event.getName().equals(new ResourceLocation("minecraft:lush_caves")) || event.getCategory().equals(BiomeCategory.JUNGLE)) {
+            event.getSpawns().addSpawn(MobCategory.CREATURE,
+                    new MobSpawnSettings.SpawnerData(BezoarEntityTypes.GIANT_TORTOISE.get(), 40, 1,2));
+        }
 
     }
 }
